@@ -1,5 +1,4 @@
-
-namespace D_Parserver.Lsp
+namespace D_Parserver.Lsp.BasicStructures
 {
     public struct Range
     {

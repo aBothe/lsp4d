@@ -1,8 +1,8 @@
 using System;
 
-namespace D_Parserver.Lsp
+namespace D_Parserver.Lsp.BasicStructures
 {
-    public struct LocationLink
+    public class LocationLink
     {
         /// <summary>
         /**
