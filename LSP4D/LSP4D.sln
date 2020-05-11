@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DParserver", "DParserver\DParserver.csproj", "{9715A3BF-526B-47A6-9703-8747E011F47A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DParser2", "D_Parser\DParser2\DParser2.csproj", "{0290A229-9AA1-41C3-B525-CAFB86D8BC42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DParserverTests", "DParserverTests\DParserverTests.csproj", "{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9715A3BF-526B-47A6-9703-8747E011F47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9715A3BF-526B-47A6-9703-8747E011F47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9715A3BF-526B-47A6-9703-8747E011F47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9715A3BF-526B-47A6-9703-8747E011F47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0290A229-9AA1-41C3-B525-CAFB86D8BC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0290A229-9AA1-41C3-B525-CAFB86D8BC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0290A229-9AA1-41C3-B525-CAFB86D8BC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0290A229-9AA1-41C3-B525-CAFB86D8BC42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
