@@ -2,7 +2,7 @@ using D_Parserver.Lsp.FileResourceChanges;
 
 namespace D_Parserver.Lsp.BasicStructures
 {
-    public class TextDocumentEdit
+    public class TextDocumentEdit : IDocumentOperation
     {
         /// <summary>
         /// The text document to change.

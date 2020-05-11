@@ -1,0 +1,37 @@
+using System;
+using System.Collections.Generic;
+using D_Parserver.Lsp.BasicStructures;
+
+namespace D_Parserver.Lsp.FileResourceChanges
+{
+    /// <summary>
+    /// A workspace edit represents changes to many resources managed in the workspace.
+    /// The edit should either provide changes or documentChanges.
+    /// If the client can handle versioned document edits and if documentChanges are present,
+    /// the latter are preferred over changes.
+    /// </summary>
+    public class WorkspaceEdit
+    {
+        /// <summary>
+        /// Holds changes to existing resources.
+        /// </summary>
+        public Dictionary<Uri, TextEdit[]> changes;
+
+        /** <summary>
+		 * Depending on the client capability `workspace.workspaceEdit.resourceOperations` document changes
+		 * are either an array of `TextDocumentEdit`s to express changes to n different text documents
+		 * where each text document edit addresses a specific version of a text document. Or it can contain
+		 * above `TextDocumentEdit`s mixed with create, rename and delete file / folder operations.
+		 *
+		 * Whether a client supports versioned document edits is expressed via
+		 * `workspace.workspaceEdit.documentChanges` client capability.
+		 *
+		 * If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
+		 * only plain `TextEdit`s using the `changes` property are supported.
+         * </summary>
+		 */
+        public IDocumentOperation[] documentChanges;
+
+        //documentChanges?: (TextDocumentEdit[] | (TextDocumentEdit | CreateFile | RenameFile | DeleteFile)[]);
+    }
+}
