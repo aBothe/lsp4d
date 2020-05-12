@@ -1,27 +1,21 @@
 ﻿using System;
-using AustinHarris.JsonRpc;
+using System.Threading.Tasks;
 
 namespace D_Parserver
 {
     class Program
     {
-        static object[] _services;
-
-        static Program()
-        {
-            _services = new object[] {
-                new DParserLspService()
-            };
-        }
-
         static void Main(string[] args)
         {
-            var rpcResultHandler = new AsyncCallback(_ => Console.WriteLine(((JsonRpcStateAsync)_).Result));
+            MainAsync(args).Wait();
+        }
 
-            for (string line = Console.ReadLine(); !string.IsNullOrEmpty(line); line = Console.ReadLine())
-            {
-                JsonRpcProcessor.Process(new JsonRpcStateAsync(rpcResultHandler, null) {JsonRpc = line});
-            }
+        static async Task MainAsync(string[] args)
+        {
+            var server = await DLanguageServerFactory
+                .CreateServer(Console.OpenStandardInput(), Console.OpenStandardOutput());
+
+            await server.WaitForExit;
         }
     }
 }

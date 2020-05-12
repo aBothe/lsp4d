@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AustinHarris.JsonRpc" Version="1.2.0.1" />
+      <PackageReference Include="OmniSharp.Extensions.LanguageServer" Version="0.16.0" />
     </ItemGroup>
 
     <ItemGroup>
