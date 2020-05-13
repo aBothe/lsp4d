@@ -1,6 +1,6 @@
-using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
@@ -18,7 +18,7 @@ namespace DParserverTests.Util
             client.ClientCapabilities.Workspace.WorkspaceFolders = Supports.OfBoolean<bool>(true);
             client.ClientCapabilities.TextDocument.Completion = Supports.OfBoolean<CompletionCapability>(true);
 
-            client.Initialize(Directory.GetCurrentDirectory()).Wait(10000);
+            Assert.IsTrue(client.Initialize(Directory.GetCurrentDirectory()).Wait(5000));
             return client;
         }
     }

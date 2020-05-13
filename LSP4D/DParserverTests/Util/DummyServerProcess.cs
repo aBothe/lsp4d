@@ -1,5 +1,4 @@
 using System.IO;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using D_Parserver;
 using Microsoft.Extensions.Logging;
@@ -10,26 +9,39 @@ namespace DParserverTests.Util
 {
     class DummyServerProcess : ServerProcess
     {
-        private ILanguageServer _languageServer;
-        
+        private Task<ILanguageServer> _languageServer;
+        private bool _running;
+
         public DummyServerProcess(ILoggerFactory loggerFactory) : base(loggerFactory)
         {
             InputStream = new MemoryQueueBufferStream();
             OutputStream = new MemoryQueueBufferStream();
         }
 
-        public override Task Start()
+        public override async Task Start()
         {
-            return DLanguageServerFactory.CreateServer(OutputStream, InputStream)
-                .ContinueWith(task => _languageServer = task.Result);
+            _languageServer = DLanguageServerFactory.CreateServer(InputStream, OutputStream)
+                .ContinueWith(task =>
+            {
+                task.Result.WaitForExit.ContinueWith(task1 =>
+                {
+                    OnExited();
+                    ServerExitCompletion.TrySetResult(null);
+                    ServerStartCompletion = new TaskCompletionSource<object>();
+                });
+                return task.Result;
+            });
+            _running = true;
+            await Task.CompletedTask;
         }
 
         public override async Task Stop()
         {
-            await _languageServer.Shutdown;
+            _running = false;
+            await Task.CompletedTask;
         }
 
-        public override bool IsRunning => true;
+        public override bool IsRunning => _running;
         public override Stream InputStream { get; }
         public override Stream OutputStream { get; }
     }

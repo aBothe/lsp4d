@@ -1,7 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DParserverTests.Util
 {
@@ -11,6 +13,9 @@ namespace DParserverTests.Util
     /// <remarks>https://codereview.stackexchange.com/questions/93154/memoryqueuebufferstream</remarks>
     public class MemoryQueueBufferStream : Stream
     {
+        private bool closed = false;
+        private readonly Semaphore _streamLock = new Semaphore(0, Int32.MaxValue);
+        
         /// <summary>
         /// Represents a single write into the MemoryQueueBufferStream.  Each write is a seperate chunk
         /// </summary>
@@ -30,11 +35,29 @@ namespace DParserverTests.Util
 
         //Maintains the streams data.  The Queue object provides an easy and efficient way to add and remove data
         //Each item in the queue represents each write to the stream.  Every call to write translates to an item in the queue
-        private Queue<Chunk> lstBuffers_m;
+        private ConcurrentQueue<Chunk> lstBuffers_m;
 
         public MemoryQueueBufferStream()
         {
-            this.lstBuffers_m = new Queue<Chunk>();
+            this.lstBuffers_m = new ConcurrentQueue<Chunk>();
+        }
+
+        public override void Close()
+        {
+            closed = true;
+            _streamLock.Release(1);
+            base.Close();
+        }
+
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            _streamLock.Release();
+            var readbytes = Read(buffer, offset, count);
+            if (!lstBuffers_m.IsEmpty)
+            {
+                _streamLock.WaitOne();
+            }
+            return Task.FromResult(readbytes);
         }
 
         /// <summary>
@@ -48,16 +71,22 @@ namespace DParserverTests.Util
         {
             this.ValidateBufferArgs(buffer, offset, count);
 
+            if (closed)
+            {
+                return -1;
+            }
+
             int iRemainingBytesToRead = count;
 
             int iTotalBytesRead = 0;
 
             //Read until we hit the requested count, or until we hav nothing left to read
-            while (iTotalBytesRead <= count && lstBuffers_m.Count > 0)
+            while (iTotalBytesRead <= count 
+                   && (iTotalBytesRead == 0 ? _streamLock.WaitOne() : _streamLock.WaitOne(0))
+                   && !closed
+                   && lstBuffers_m.TryPeek(out Chunk chunk))
             {
-                //Get first chunk from the queue
-                Chunk chunk = this.lstBuffers_m.Peek();
-
+                _streamLock.Release();
                 //Determine how much of the chunk there is left to read
                 int iUnreadChunkLength = chunk.Data.Length - chunk.ChunkReadStartIndex;
 
@@ -76,7 +105,8 @@ namespace DParserverTests.Util
                     //If the entire chunk has been read,  remove it
                     if (chunk.ChunkReadStartIndex + iBytesToRead >= chunk.Data.Length)
                     {
-                        this.lstBuffers_m.Dequeue();
+                        this.lstBuffers_m.TryDequeue(out _);
+                        _streamLock.WaitOne();
                     }
                     else
                     {
@@ -127,6 +157,7 @@ namespace DParserverTests.Util
 
             //Add the data to the queue
             this.lstBuffers_m.Enqueue(new Chunk() {ChunkReadStartIndex = 0, Data = bufSave});
+            _streamLock.Release();
         }
 
         public override bool CanSeek

@@ -20,7 +20,7 @@ namespace D_Parserver
         public TextDocumentSyncKind Change { get; } = TextDocumentSyncKind.Full;
         
         private readonly DocumentSelector _documentSelector = new DocumentSelector(
-            new DocumentFilter() {
+            new DocumentFilter {
                 Pattern = "**/*.{d,di}"
             }
         );
@@ -63,7 +63,6 @@ namespace D_Parserver
 
         public void SetCapability(SynchronizationCapability capability)
         {
-            throw new NotImplementedException();
         }
 
         public Task<Unit> Handle(DidOpenTextDocumentParams request, CancellationToken cancellationToken)

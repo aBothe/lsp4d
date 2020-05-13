@@ -17,11 +17,7 @@ namespace DParserverTests
         [Test]
         public void InitalizeClientAndServer_initializesEverything()
         {
-            
-            _client.Shutdown().ContinueWith(_ =>
-            {
-                Assert.Pass();
-            }).Wait();
+            Assert.IsTrue(_client.Shutdown().Wait(5000));
         }
     }
 }
