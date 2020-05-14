@@ -11,7 +11,19 @@ namespace DParserverTests
         [SetUp]
         public void Setup()
         {
+            TearDown();
             _client = Lsp4DUtil.MakeClient();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (_client != null)
+            {
+                Assert.IsTrue(_client.Shutdown().Wait(5000));
+            }
+            _client = null;
+            //Lsp4DUtil.CleanDefaultWorkspace();
         }
 
         [Test]
