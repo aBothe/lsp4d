@@ -53,34 +53,37 @@ import stdio;//1
                     Version = 2,
                     Uri = new Uri(Lsp4DUtil.DefaultMainFile)
                 },
-                ContentChanges = new TextDocumentContentChangeEvent[]
+                ContentChanges = new[]
                 {
                     new TextDocumentContentChangeEvent
                     {
-                        Range = new Range(new Position(2, 0), new Position(2, 0)),
+                        Range = new Range(new Position(2, 3), new Position(2, 3)),
                         Text = @"
 void main(string[] args) {//3
     writeln(`asdf`);//4
-}
-
+}//5
+/* */
 /// singlelinecomment
 "
                     }
                 }
             });
 
-            var foldingRanges = _client.TextDocument.FoldingRanges(Lsp4DUtil.DefaultMainFile).Result;
-            
-            Assert.AreEqual(2, foldingRanges.Count());
-            /*
-            var locationLinks = _client.TextDocument
-                .Definition(Lsp4DUtil.DefaultMainFile, 3, 19, CancellationToken.None).Result.First();
-            Assert.IsTrue(locationLinks.IsLocation);
-            Assert.AreEqual(Lsp4DUtil.DefaultMainFile, locationLinks.Location.Uri.AbsolutePath);
-            Assert.AreEqual(3, locationLinks.Location.Range.Start.Line);
-            Assert.AreEqual(19, locationLinks.Location.Range.Start.Character);
-            Assert.AreEqual(3, locationLinks.Location.Range.Start.Line);
-            Assert.AreEqual(19 + 4, locationLinks.Location.Range.Start.Character);*/
+            var foldingRanges = _client.TextDocument.FoldingRanges(Lsp4DUtil.DefaultMainFile).Result.ToList();
+
+            Assert.AreEqual(2, foldingRanges.Count);
+
+            Assert.AreEqual(FoldingRangeKind.Region, foldingRanges[0].Kind);
+            Assert.AreEqual(3, foldingRanges[0].StartLine);
+            Assert.AreEqual(25, foldingRanges[0].StartCharacter);
+            Assert.AreEqual(5, foldingRanges[0].EndLine);
+            Assert.AreEqual(1, foldingRanges[0].EndCharacter);
+
+            Assert.AreEqual(FoldingRangeKind.Comment, foldingRanges[1].Kind);
+            Assert.AreEqual(6, foldingRanges[1].StartLine);
+            Assert.AreEqual(0, foldingRanges[1].StartCharacter);
+            Assert.AreEqual(6, foldingRanges[1].EndLine);
+            Assert.AreEqual(5, foldingRanges[1].EndCharacter);
         }
     }
 }

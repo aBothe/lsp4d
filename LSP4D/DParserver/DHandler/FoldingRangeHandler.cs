@@ -55,7 +55,7 @@ namespace D_Parserver.DHandler
                 }
 
                 var c = module.Comments[i];
-                if (c.CommentType == Comment.Type.SingleLine)
+                if (c.CommentType.HasFlag(Comment.Type.SingleLine))
                 {
                     int nextIndex = i + 1;
                     Comment lastComment;
@@ -92,8 +92,8 @@ namespace D_Parserver.DHandler
                     }
 
                     lastComment = null;
-
-
+                    
+                    // Peek next comments
                     for (int j = i + 1; j < module.Comments.Length; j++)
                     {
                         lastComment = module.Comments[j];
@@ -116,7 +116,7 @@ namespace D_Parserver.DHandler
                         StartLine = c.StartPosition.Line - 1,
                         StartCharacter = c.StartPosition.Column - 1,
                         EndLine = lastComment.StartPosition.Line - 1,
-                        EndCharacter = lastComment.EndPosition.Column + 1 - 1,
+                        EndCharacter = lastComment.EndPosition.Column - 1,
                         Kind = FoldingRangeKind.Comment
                     });
                 }
@@ -126,7 +126,7 @@ namespace D_Parserver.DHandler
                         StartLine = c.StartPosition.Line - 1,
                         StartCharacter = c.StartPosition.Column - 1,
                         EndLine = c.EndPosition.Line - 1,
-                        EndCharacter = c.EndPosition.Column + 1 - 1,
+                        EndCharacter = c.EndPosition.Column - 1,
                         Kind = FoldingRangeKind.Comment
                     });
             }
@@ -156,7 +156,7 @@ namespace D_Parserver.DHandler
                 StartLine = n.BlockStartLocation.Line - 1,
                 StartCharacter = n.BlockStartLocation.Column - 1,
                 EndLine = n.EndLocation.Line - 1,
-                EndCharacter = n.EndLocation.Column - 1 + 1,
+                EndCharacter = n.EndLocation.Column - 1,
                 Kind = FoldingRangeKind.Region
             };
         }
@@ -168,7 +168,7 @@ namespace D_Parserver.DHandler
                 StartLine = s.Location.Line - 1,
                 StartCharacter = s.Location.Column - 1,
                 EndLine = s.EndLocation.Line - 1,
-                EndCharacter = s.EndLocation.Column - 1 + 1,
+                EndCharacter = s.EndLocation.Column - 1,
                 Kind = FoldingRangeKind.Region
             });
 
@@ -182,7 +182,7 @@ namespace D_Parserver.DHandler
                 StartLine = x.Location.Line - 1,
                 StartCharacter = x.Location.Column - 1,
                 EndLine = x.EndLocation.Line - 1,
-                EndCharacter = x.EndLocation.Column - 1 + 1,
+                EndCharacter = x.EndLocation.Column - 1,
                 Kind = FoldingRangeKind.Region
             });
 
@@ -209,7 +209,7 @@ namespace D_Parserver.DHandler
                 StartLine = mdb.BlockStartLocation.Line - 1,
                 StartCharacter = mdb.BlockStartLocation.Column - 1,
                 EndLine = mdb.EndLocation.Line - 1,
-                EndCharacter = mdb.EndLocation.Column - 1 + 1,
+                EndCharacter = mdb.EndLocation.Column - 1,
                 Kind = FoldingRangeKind.Region
             });
         }
