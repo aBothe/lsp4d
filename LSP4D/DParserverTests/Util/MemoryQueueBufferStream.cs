@@ -11,7 +11,7 @@ namespace DParserverTests.Util
     /// This stream maintains data only until the data is read, then it is purged from the stream.
     /// </summary>
     /// <remarks>https://codereview.stackexchange.com/questions/93154/memoryqueuebufferstream</remarks>
-    public class MemoryQueueBufferStream : Stream
+    class MemoryQueueBufferStream : Stream
     {
         private bool closed = false;
         private readonly Semaphore _streamLock = new Semaphore(0, Int32.MaxValue);
