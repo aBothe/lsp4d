@@ -2,51 +2,28 @@ using System;
 using System.Linq;
 using DParserverTests.Util;
 using NUnit.Framework;
-using OmniSharp.Extensions.LanguageServer.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using Range = OmniSharp.Extensions.LanguageServer.Protocol.Models.Range;
 
 namespace DParserverTests
 {
-    public class InitServerTests
+    public class InitServerTests : LspTest
     {
-        private LanguageClient _client;
-        
-        [SetUp]
-        public void Setup()
-        {
-            TearDown();
-            _client = Lsp4DUtil.MakeClient();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            if (_client != null)
-            {
-                Assert.IsTrue(_client.Shutdown().Wait(5000));
-            }
-            _client = null;
-            //Lsp4DUtil.CleanDefaultWorkspace();
-        }
-
         [Test]
-        public void InitalizeClientAndServer_initializesEverything()
+        public void InitalizeClientAndServer_initializesServerCaps()
         {
-            Assert.Pass();
+            Assert.IsNotNull(Client.ServerCapabilities.FoldingRangeProvider);
         }
         
         [Test]
-        public void TextDocumentChanges_appliesEditChanges()
+        public void TextDocumentChanges_appliesIncrementalChanges()
         {
-            Assert.IsNotNull(_client.ServerCapabilities.FoldingRangeProvider);
-            
-            _client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;//0
+            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;//0
 import stdio;//1
 //2", 1);
 
-            _client.SendNotification(DocumentNames.DidChange, new DidChangeTextDocumentParams
+            Client.SendNotification(DocumentNames.DidChange, new DidChangeTextDocumentParams
             {
                 TextDocument = new VersionedTextDocumentIdentifier
                 {
@@ -69,7 +46,7 @@ void main(string[] args) {//3
                 }
             });
 
-            var foldingRanges = _client.TextDocument.FoldingRanges(Lsp4DUtil.DefaultMainFile).Result.ToList();
+            var foldingRanges = Client.TextDocument.FoldingRanges(Lsp4DUtil.DefaultMainFile).Result.ToList();
 
             Assert.AreEqual(2, foldingRanges.Count);
 

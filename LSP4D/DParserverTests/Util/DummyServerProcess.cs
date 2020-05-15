@@ -41,6 +41,15 @@ namespace DParserverTests.Util
             await Task.CompletedTask;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (_languageServer.IsCompleted)
+            {
+                _languageServer.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         public override bool IsRunning => _running;
         public override Stream InputStream { get; }
         public override Stream OutputStream { get; }
