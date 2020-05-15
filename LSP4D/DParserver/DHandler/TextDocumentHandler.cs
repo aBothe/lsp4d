@@ -94,8 +94,8 @@ namespace D_Parserver.DHandler
                 var range = change.Range;
                 if (range != null)
                 {
-                    var caret = new CodeLocation((int)range.Start.Line + 1, (int)range.Start.Character + 1);
-                    var end = new CodeLocation((int)range.End.Line + 1, (int)range.End.Character + 1);
+                    var caret = new CodeLocation((int)range.Start.Character + 1, (int)range.Start.Line + 1);
+                    var end = new CodeLocation((int)range.End.Character + 1, (int)range.End.Line + 1);
                     var startOffset = DocumentHelper.LocationToOffset(code, caret);
                     var endOffset = DocumentHelper.GetOffsetByRelativeLocation(code, caret, startOffset, end);
 
