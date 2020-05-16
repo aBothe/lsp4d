@@ -11,6 +11,7 @@ namespace DParserverTests.Util
     public static class Lsp4DUtil
     {
         public static readonly string DLANG = "d";
+        public static readonly string EscapedNewLine = Environment.NewLine.Replace("\r", "\\r").Replace("\n", "\\n");
         public static readonly string DefaultWorkspaceRoot = Path.Combine(Directory.GetCurrentDirectory(), "defaultworkspace");
         public static readonly string DefaultSrcFolder = Path.Combine(DefaultWorkspaceRoot, "src");
         public static readonly string DefaultMainFile = Path.Combine(DefaultSrcFolder, "main.d");

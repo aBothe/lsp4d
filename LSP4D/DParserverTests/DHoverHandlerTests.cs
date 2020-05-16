@@ -21,17 +21,29 @@ namespace DParserverTests
         public void InvokesHover_ReturnsSignature()
         {
             Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
-void main(string[] args);
+/**
+ * Some arguments
+ * Returns: Dummy!
+ */
+void main(string[] args) {
+}
 ");
 
-            var hoverResult = Client.TextDocument.Hover(Lsp4DUtil.DefaultMainFile, 1, 20).Result;
+            var hoverResult = Client.TextDocument.Hover(Lsp4DUtil.DefaultMainFile, 5, 8).Result;
 
             Assert.AreEqual(
                 "{\"Contents\":{\"MarkedStrings\":null,\"HasMarkedStrings\":false,\"MarkupContent\":{\"Kind\":\"markdown\"," +
-                "\"Value\":\"(parameter) `immutable(char)[][]` args\"},\"HasMarkupContent\":true}," +
+                "\"Value\":\"`void` main.main(" + Lsp4DUtil.EscapedNewLine + 
+                "  `string[]` args" + Lsp4DUtil.EscapedNewLine + 
+                ")" + Lsp4DUtil.EscapedNewLine + 
+                Lsp4DUtil.EscapedNewLine + 
+                "Some arguments" + Lsp4DUtil.EscapedNewLine + 
+                Lsp4DUtil.EscapedNewLine + 
+                "**Returns:** Dummy!" + Lsp4DUtil.EscapedNewLine + 
+                "\"},\"HasMarkupContent\":true}," +
                 "\"Range\":{" +
-                "\"Start\":{\"Line\":1,\"Character\":10}," +
-                "\"End\":{\"Line\":1,\"Character\":23}" +
+                "\"Start\":{\"Line\":5,\"Character\":0}," +
+                "\"End\":{\"Line\":6,\"Character\":1}" +
                 "}}", JsonConvert.SerializeObject(hoverResult));
         }
     }

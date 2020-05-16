@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text;
 using D_Parser.Completion.ToolTips;
 using D_Parser.Dom;
 using D_Parser.Resolver;
@@ -29,12 +31,38 @@ namespace D_Parserver.DHandler.Resolution
         
         public static string CreateSignatureMarkdown(AbstractType t, bool templateParamCompletion = false, int currentMethodParam = -1)
         {
-            return new TooltipMarkupGen ().GenTooltipSignature (t, templateParamCompletion, currentMethodParam);
+            var markupGen = new TooltipMarkupGen ();
+            var sb = new StringBuilder();
+            
+            sb.AppendLine(markupGen.GenTooltipSignature (t, templateParamCompletion, currentMethodParam));
+
+            if (t is DSymbol ds && ds.Definition is { } n)
+                AppendTooltipBody(markupGen, n, sb);
+            
+            return sb.ToString();
         }
         
         public static string CreateSignatureMarkdown(DNode dn, bool templateParamCompletion = false, int currentMethodParam = -1)
         {
             return new TooltipMarkupGen ().GenTooltipSignature (dn, templateParamCompletion, currentMethodParam);
+        }
+        
+        static void AppendTooltipBody(TooltipMarkupGen markupGen, DNode dn, StringBuilder sb)
+        {
+            markupGen.GenToolTipBody (dn, out string summary, out Dictionary<string, string> categories);
+
+            if (summary != null)
+            {
+                sb.AppendLine();
+                sb.AppendLine(summary);
+            }
+
+            if (categories != null)
+            {
+                sb.AppendLine();
+                foreach (var kv in categories)
+                    sb.Append("**").Append(kv.Key).Append(":** ").AppendLine(kv.Value);
+            }
         }
     }
 }

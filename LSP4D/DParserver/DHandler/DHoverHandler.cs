@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace D_Parserver.DHandler
             var editorData = DResolverWrapper.CreateEditorData(request, cancellationToken);
             var resolvedHoveredTypes = LooseResolution.ResolveTypeLoosely(editorData, out LooseResolution.NodeResolutionAttempt resolutionAttempt, out ISyntaxRegion syntaxRegion, true);
             
-            var markup = string.Join("\n", AmbiguousType.TryDissolve(resolvedHoveredTypes)
+            var markup = string.Join(Environment.NewLine + Environment.NewLine, AmbiguousType.TryDissolve(resolvedHoveredTypes)
                     .Where(t => t != null)
                     .Select(t => TooltipMarkupGen.CreateSignatureMarkdown(t)));
 
