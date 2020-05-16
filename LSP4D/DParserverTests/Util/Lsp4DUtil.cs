@@ -1,10 +1,10 @@
+using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
-using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace DParserverTests.Util
 {
@@ -15,7 +15,7 @@ namespace DParserverTests.Util
         public static readonly string DefaultSrcFolder = Path.Combine(DefaultWorkspaceRoot, "src");
         public static readonly string DefaultMainFile = Path.Combine(DefaultSrcFolder, "main.d");
         
-        public static LanguageClient MakeClient()
+        public static LanguageClient MakeClient(Action<ClientCapabilities> configureClientCaps)
         {
             Directory.CreateDirectory(DefaultSrcFolder);
 
@@ -24,10 +24,10 @@ namespace DParserverTests.Util
             var client = new LanguageClient(loggerFactory, new DummyServerProcess(loggerFactory));
             client.ClientCapabilities.Workspace.WorkspaceEdit = Supports.OfBoolean<WorkspaceEditCapability>(true);
             client.ClientCapabilities.Workspace.WorkspaceFolders = Supports.OfBoolean<bool>(true);
-            client.ClientCapabilities.TextDocument.Definition = new Supports<DefinitionCapability>(true, new DefinitionCapability{ LinkSupport = true });
             client.ClientCapabilities.TextDocument.Completion = Supports.OfBoolean<CompletionCapability>(true);
-            client.ClientCapabilities.TextDocument.Hover = new Supports<HoverCapability>(true, new HoverCapability{ ContentFormat = new Container<MarkupKind>(MarkupKind.Markdown, MarkupKind.PlainText)});
 
+            configureClientCaps(client.ClientCapabilities);
+            
             bool hasInitialized = client.Initialize(DefaultWorkspaceRoot).Wait(3000);
             Assert.IsTrue(hasInitialized);
             return client;

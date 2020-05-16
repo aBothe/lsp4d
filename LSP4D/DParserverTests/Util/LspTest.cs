@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Client;
+using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 
 namespace DParserverTests.Util
 {
@@ -7,11 +8,15 @@ namespace DParserverTests.Util
     {
         public LanguageClient Client { protected get; set; }
 
+        protected virtual void ConfigureClientCapabilities(ClientCapabilities clientCapabilities)
+        {
+        }
+        
         [SetUp]
         public void Setup()
         {
             TearDown();
-            Client = Lsp4DUtil.MakeClient();
+            Client = Lsp4DUtil.MakeClient(ConfigureClientCapabilities);
         }
 
         [TearDown]

@@ -3,11 +3,19 @@ using System.Linq;
 using DParserverTests.Util;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using OmniSharp.Extensions.LanguageServer.Protocol;
+using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 
 namespace DParserverTests
 {
     public class DDefinitionHandlerTests : LspTest
     {
+        protected override void ConfigureClientCapabilities(ClientCapabilities clientCapabilities)
+        {
+            clientCapabilities.TextDocument.Definition =
+                new Supports<DefinitionCapability>(true, new DefinitionCapability {LinkSupport = true});
+        }
+
         [Test]
         public void CallGotoDeclarationHandler_ReturnsLocations()
         {
@@ -17,7 +25,7 @@ class MyClass {}
 MyClass instance;");
 
             var definitions = Client.TextDocument.Definition(Lsp4DUtil.DefaultMainFile, 3, 2).Result.ToList();
-            
+
             Assert.AreEqual("[{\"IsLocation\":false,\"Location\":null,\"IsLocationLink\":true,\"LocationLink\":{" +
                             "\"OriginSelectionRange\":{\"Start\":{\"Line\":3,\"Character\":0},\"End\":{\"Line\":3,\"Character\":7}}," +
                             $"\"TargetUri\":\"{new Uri(Lsp4DUtil.DefaultMainFile).AbsoluteUri}\"," +
