@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using D_Parser;
@@ -23,7 +24,7 @@ namespace D_Parserver.DHandler
         private readonly ILogger<TextDocumentHandler> _logger;
         private readonly ILanguageServerConfiguration _configuration;
 
-        public static readonly ConcurrentDictionary<Uri, DModuleDocument> OpenFiles = new ConcurrentDictionary<Uri, DModuleDocument>();
+        private static readonly ConcurrentDictionary<Uri, DModuleDocument> OpenFiles = new ConcurrentDictionary<Uri, DModuleDocument>();
 
         public class DModuleDocument
         {
@@ -147,6 +148,21 @@ namespace D_Parserver.DHandler
         public TextDocumentAttributes GetTextDocumentAttributes(Uri uri)
         {
             return new TextDocumentAttributes(uri, "d");
+        }
+
+        public static DModule GetAstModule(Uri uri)
+        {
+            return GlobalParseCache.GetModule(uri.AbsolutePath) ?? OpenFiles[uri].Module;
+        }
+
+        public static string GetModuleCode(Uri uri)
+        {
+            if (OpenFiles.TryGetValue(uri, out DModuleDocument modDoc))
+            {
+                return modDoc.Code;
+            }
+
+            return new WebClient().DownloadString(uri);
         }
     }
 }

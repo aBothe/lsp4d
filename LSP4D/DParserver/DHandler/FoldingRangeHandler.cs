@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using D_Parser.Dom;
 using D_Parser.Dom.Statements;
-using D_Parser.Misc;
 using D_Parser.Parser;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
@@ -39,8 +38,7 @@ namespace D_Parserver.DHandler
             CancellationToken cancellationToken)
         {
             await Task.Yield();
-            var module = GlobalParseCache.GetModule(request.TextDocument.Uri.AbsolutePath)
-                         ?? TextDocumentHandler.OpenFiles[request.TextDocument.Uri].Module;
+            var module = TextDocumentHandler.GetAstModule(request.TextDocument.Uri);
             var l = new List<FoldingRange>();
 
             // Add primary node folds
