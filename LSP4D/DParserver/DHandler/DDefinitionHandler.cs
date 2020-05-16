@@ -10,7 +10,6 @@ using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
-using Range = OmniSharp.Extensions.LanguageServer.Protocol.Models.Range;
 
 namespace D_Parserver.DHandler
 {
@@ -35,28 +34,21 @@ namespace D_Parserver.DHandler
         public static LocationOrLocationLink ToLocationOrLocationLink(INode node, bool linkSupport, ISyntaxRegion sourceSyntaxRegion = null)
         {
             var targetUri = new Uri(((DModule) node.NodeRoot).FileName);
-            var nodeNameLocation = new Range(
-                new Position(node.NameLocation.Line - 1, node.NameLocation.Column - 1), 
-                new Position(node.NameLocation.Line - 1, node.NameLocation.Column + node.Name.Length - 1));
 
             if (linkSupport)
             {
                 return new LocationOrLocationLink(new LocationLink
                 {
                     TargetUri = targetUri,
-                    TargetSelectionRange = nodeNameLocation,
-                    TargetRange = new Range(
-                        new Position(node.Location.Line - 1, node.Location.Column - 1), 
-                        new Position(node.EndLocation.Line - 1, node.EndLocation.Column - 1)),
-                    OriginSelectionRange = sourceSyntaxRegion == null ? null : new Range(
-                        new Position(sourceSyntaxRegion.Location.Line - 1, sourceSyntaxRegion.Location.Column - 1), 
-                        new Position(sourceSyntaxRegion.EndLocation.Line - 1, sourceSyntaxRegion.EndLocation.Column - 1))
+                    TargetSelectionRange = node.ToNameLocationRange(),
+                    TargetRange = node.ToRange(),
+                    OriginSelectionRange = sourceSyntaxRegion.ToRange()
                 });
             }
             return new LocationOrLocationLink(new Location
             {
                 Uri = targetUri,
-                Range = nodeNameLocation
+                Range = node.ToNameLocationRange()
             });
         }
     }
