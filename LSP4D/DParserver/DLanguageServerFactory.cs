@@ -18,6 +18,7 @@ namespace D_Parserver
                     .WithInput(input)
                     .WithOutput(output)
                     .WithHandler<FoldingRangeHandler>()
+                    .WithHandler<DDefinitionHandler>()
                     .WithHandler<TextDocumentHandler>()
                     .OnInitialize(async (server, request) => {
                         var completionSource = new TaskCompletionSource<bool>();

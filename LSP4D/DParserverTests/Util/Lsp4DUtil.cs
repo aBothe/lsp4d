@@ -24,10 +24,12 @@ namespace DParserverTests.Util
             var client = new LanguageClient(loggerFactory, new DummyServerProcess(loggerFactory));
             client.ClientCapabilities.Workspace.WorkspaceEdit = Supports.OfBoolean<WorkspaceEditCapability>(true);
             client.ClientCapabilities.Workspace.WorkspaceFolders = Supports.OfBoolean<bool>(true);
+            client.ClientCapabilities.TextDocument.Definition = new Supports<DefinitionCapability>(true, new DefinitionCapability{ LinkSupport = true });
             client.ClientCapabilities.TextDocument.Completion = Supports.OfBoolean<CompletionCapability>(true);
             client.ClientCapabilities.TextDocument.Hover = new Supports<HoverCapability>(true, new HoverCapability{ ContentFormat = new Container<MarkupKind>(MarkupKind.Markdown, MarkupKind.PlainText)});
 
-            Assert.IsTrue(client.Initialize(DefaultWorkspaceRoot).Wait(5000));
+            bool hasInitialized = client.Initialize(DefaultWorkspaceRoot).Wait(3000);
+            Assert.IsTrue(hasInitialized);
             return client;
         }
 
