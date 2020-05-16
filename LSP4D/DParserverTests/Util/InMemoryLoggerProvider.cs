@@ -5,23 +5,27 @@ using Microsoft.Extensions.Logging;
 
 namespace DParserverTests.Util
 {
-    class InMemoryLoggerProvider : ILoggerProvider
+    public class InMemoryLoggerProvider : ILoggerProvider
     {
+        public static readonly List<string> LoggedThings = new List<string>();
+        
         public void Dispose()
         {
-            InMemoryLogger.loggedThings.Clear();
+            LoggedThings.Clear();
         }
 
         class InMemoryLogger : ILogger
         {
-            public static readonly List<string> loggedThings = new List<string>();
-
             public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
                 Func<TState, Exception, string> formatter)
             {
                 var msg = formatter.Invoke(state, exception);
+                if (msg == "Read 0 bytes from input stream." || msg == "Reading response headers...")
+                {
+                    return;
+                }
                 Console.WriteLine(msg);
-                loggedThings.Add(msg);
+                LoggedThings.Add(msg);
             }
 
             public bool IsEnabled(LogLevel logLevel)
