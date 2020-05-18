@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using D_Parser.Misc;
@@ -9,12 +10,14 @@ namespace D_Parserver.DHandler.Resolution
 {
     public class WorkspaceManager
     {
-        public static readonly BehaviorSubject<List<string>> WorkspaceFolders
-            = new BehaviorSubject<List<string>>(new List<string>());
+        public static readonly BehaviorSubject<ImmutableList<string>> WorkspaceFolders
+            = new BehaviorSubject<ImmutableList<string>>(ImmutableList<string>.Empty);
 
         public static async Task SetWorkspaceRoots(IEnumerable<string> workspaceFolders,
             ProgressManager progressManager, IWorkDoneProgressParams workDoneProgressParams)
         {
+            WorkspaceFolders.OnNext(workspaceFolders.ToImmutableList());
+
             var completionSource = new TaskCompletionSource<bool>();
             var initialParseProgress = progressManager.WorkDone(workDoneProgressParams, new WorkDoneProgressBegin()
             {
@@ -22,7 +25,7 @@ namespace D_Parserver.DHandler.Resolution
                 Percentage = 0
             });
 
-            var partProgresses = GlobalParseCache.BeginAddOrUpdatePaths(workspaceFolders, finishedHandler:
+            var partProgresses = GlobalParseCache.BeginAddOrUpdatePaths(WorkspaceFolders.Value, finishedHandler:
                 ea =>
                 {
                     initialParseProgress.OnNext(new WorkDoneProgressReport()
