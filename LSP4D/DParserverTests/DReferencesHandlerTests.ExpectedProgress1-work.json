@@ -1,0 +1,5 @@
+[{"token":"workDone","value":{"title":"Begin resolving references","percentage":0.0,"kind":"begin"}},
+{"token":"workDone","value":{"message":"Scanned ABSSRC/a.d","percentage":50.0,"kind":"report"}},
+{"token":"workDone","value":{"message":"Scanned ABSSRC/b.d","percentage":100.0,"kind":"report"}},
+{"token":"workDone","value":{"kind":"end"}},
+]

@@ -27,7 +27,7 @@ namespace D_Parserver.DHandler
 
         public override Task<LocationContainer> Handle(ReferenceParams request, CancellationToken cancellationToken)
         {
-            var workDone = ProgressManager.WorkDone(request, new WorkDoneProgressBegin()
+            var workDone = ProgressManager.WorkDone(request, new WorkDoneProgressBegin
             {
                 Title = "Begin resolving references",
                 Percentage = 0
@@ -53,6 +53,7 @@ namespace D_Parserver.DHandler
             var modules = editorData.ParseCache.EnumRootPackagesSurroundingModule(editorData.SyntaxTree)
                 .SelectMany(package => (IEnumerable<DModule>)package)
                 .Where(module => module != null)
+                .OrderBy(module => module.FileName)
                 .ToList();
 
             var progress = ProgressManager.For(request, cancellationToken);
@@ -68,7 +69,7 @@ namespace D_Parserver.DHandler
 
                 try
                 {
-                    var references = ReferencesFinder.SearchModuleForASTNodeReferences(module, nodeSymbolToFind, ctxt)
+                    var references = ReferencesFinder.SearchModuleForASTNodeReferences(module, nodeSymbolToFind, ctxt, request.Context.IncludeDeclaration)
                         .Where(region => region != null)
                         .OrderBy(region => region.Location)
                         .Select(region => ToLocation(region, module))

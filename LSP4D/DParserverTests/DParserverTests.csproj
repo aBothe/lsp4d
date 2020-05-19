@@ -18,4 +18,12 @@
       <ProjectReference Include="..\D_Parser\DParser2\DParser2.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Include="DReferencesHandlerTests.ExpectedProgress1-result.json" />
+      <EmbeddedResource Include="DReferencesHandlerTests.ExpectedProgress1-work.json" />
+      <EmbeddedResource Include="DReferencesHandlerTests.ExpectedProgress2-result.json" />
+      <EmbeddedResource Include="DReferencesHandlerTests.ExpectedProgress2-work.json" />
+      <EmbeddedResource Include="DReferencesHandlerTests.ExpectedProgress3-result.json" />
+    </ItemGroup>
+
 </Project>

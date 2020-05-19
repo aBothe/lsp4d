@@ -23,6 +23,10 @@ namespace DParserverTests.Util
             var loggerFactory = new LoggerFactory(new[] {new InMemoryLoggerProvider()});
 
             var client = new LanguageClient(loggerFactory, new DummyServerProcess(loggerFactory));
+            client.ClientCapabilities.Window = new WindowClientCapabilities
+            {
+                WorkDoneProgress = new Supports<bool>(true, true)
+            };
             client.ClientCapabilities.Workspace.WorkspaceEdit = Supports.OfBoolean<WorkspaceEditCapability>(true);
             client.ClientCapabilities.Workspace.WorkspaceFolders = Supports.OfBoolean<bool>(true);
             client.ClientCapabilities.TextDocument.Completion = Supports.OfBoolean<CompletionCapability>(true);
