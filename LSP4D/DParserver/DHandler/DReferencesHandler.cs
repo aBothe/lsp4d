@@ -20,7 +20,7 @@ namespace D_Parserver.DHandler
     public class DReferencesHandler : ReferencesHandler
     {
         public DReferencesHandler(ProgressManager progressManager)
-            : base(new ReferenceRegistrationOptions{ DocumentSelector = TextDocumentHandler.DocumentSelector }, progressManager)
+            : base(new ReferenceRegistrationOptions{ DocumentSelector = TextDocumentHandler.DocumentSelector, WorkDoneProgress = true }, progressManager)
         {
             SetCapability(new ReferenceCapability());
         }

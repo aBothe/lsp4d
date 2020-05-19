@@ -13,6 +13,12 @@ namespace DParserverTests
         public static readonly string ModuleBFile = Path.Combine(Lsp4DUtil.DefaultSrcFolder, "b.d");
 
         [Test]
+        public void CheckWorkDoneProgressCap()
+        {
+            Assert.IsTrue(Client.ServerCapabilities.ReferencesProvider.Value.WorkDoneProgress);
+        }
+        
+        [Test]
         public void EnumReferences_IncludeDeclaration_ReturnsReferences()
         {
             Client.TextDocument.DidOpen(ModuleAFile, Lsp4DUtil.DLANG, @"module modA;
