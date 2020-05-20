@@ -1,3 +1,4 @@
+using D_Parser.Misc;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
@@ -22,6 +23,7 @@ namespace DParserverTests.Util
         [TearDown]
         public void TearDown()
         {
+            GlobalParseCache.RemoveRoot(Lsp4DUtil.DefaultWorkspaceRoot);
             if (Client != null)
             {
                 Client.Dispose();
