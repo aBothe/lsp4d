@@ -1,0 +1,5 @@
+[{"token":"workDone","value":{"title":null,"message":"Begin getting selection ranges","percentage":0.0,"kind":"begin"}},
+{"token":"workDone","value":{"percentage":50.0,"kind":"report"}},
+{"token":"workDone","value":{"percentage":100.0,"kind":"report"}},
+{"token":"workDone","value":{"kind":"end"}},
+]

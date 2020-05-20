@@ -26,5 +26,17 @@ namespace D_Parserver.DHandler.Resolution
                 new Position(node.Location.Line - 1, node.Location.Column - 1), 
                 new Position(node.EndLocation.Line - 1, node.EndLocation.Column - 1));
         }
+
+        public static bool IsWithinRange(this ISyntaxRegion sr, Range range)
+        {
+            var startLine = sr.Location.Line - 1;
+            var startCol = sr.Location.Column - 1;
+            var endLine = sr.EndLocation.Line - 1;
+            var endCol = sr.EndLocation.Column - 1;
+
+            return (range.Start.Line < startLine ||
+                    (range.Start.Line == startLine && range.Start.Character <= startCol))
+                   && (range.End.Line > endLine || (range.End.Line == endLine && range.End.Character >= endCol));
+        }
     }
 }

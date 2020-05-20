@@ -21,6 +21,7 @@ namespace D_Parserver
                     .WithHandler<TextDocumentHandler>()
                     .WithHandler<DHoverHandler>()
                     .WithHandler<DReferencesHandler>()
+                    .WithHandler<DSelectionRangeHandler>()
                     .OnInitialize(async (server, request) =>
                     {
                         var workspaceFolders = new HashSet<string>();
