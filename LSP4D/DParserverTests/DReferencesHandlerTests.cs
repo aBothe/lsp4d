@@ -39,8 +39,7 @@ void foo(T: AClass)() {}
             var partialResultToken = new ProgressToken("partialResult");
             var workdoneToken = new ProgressToken("workDone");
 
-            var workTester = new WorkAndProgressTester();
-            workTester.Setup(Client);
+            var workTester = WorkAndProgressTester.Setup(Client);
 
             var result = Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
             {
@@ -77,8 +76,7 @@ void foo(T: AClass)() {}
             var partialResultToken = new ProgressToken("partialResult");
             var workdoneToken = new ProgressToken("workDone");
 
-            var workTester = new WorkAndProgressTester();
-            workTester.Setup(Client);
+            var workTester = WorkAndProgressTester.Setup(Client);
 
             var result = Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
             {

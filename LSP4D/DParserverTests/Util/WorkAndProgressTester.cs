@@ -15,8 +15,11 @@ namespace DParserverTests.Util
         private readonly StringBuilder _recordedWorkProgress = new StringBuilder("[");
         private static readonly string SrcFolderUri = new Uri(Lsp4DUtil.DefaultSrcFolder).AbsoluteUri;
 
-        public void Setup(LanguageClient client)
+        private WorkAndProgressTester() {}
+        
+        public static WorkAndProgressTester Setup(LanguageClient client)
         {
+            var tester = new WorkAndProgressTester();
             
             client.HandleNotification("$/progress", (JObject progressParams) =>
             {
@@ -27,16 +30,17 @@ namespace DParserverTests.Util
                 switch (progressParams["token"].ToString())
                 {
                     case "partialResult":
-                        _recordedResultProgress.Append(jsonAgain).Append(',').AppendLine();
+                        tester._recordedResultProgress.Append(jsonAgain).Append(',').AppendLine();
                         break;
                     case "workDone":
-                        _recordedWorkProgress.Append(jsonAgain).Append(',').AppendLine();
+                        tester._recordedWorkProgress.Append(jsonAgain).Append(',').AppendLine();
                         break;
                     default:
                         Assert.Fail("unexpected progress notification token " + progressParams["token"]);
                         return;
                 }
             });
+            return tester;
         }
 
         public void AssertProgressLogExpectations(string resourceBaseName)
