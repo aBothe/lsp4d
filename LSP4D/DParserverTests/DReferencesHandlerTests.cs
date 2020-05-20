@@ -36,18 +36,15 @@ AClass ainstance;
 void foo(T: AClass)() {}
 ");
 
-            var partialResultToken = new ProgressToken("partialResult");
-            var workdoneToken = new ProgressToken("workDone");
-
             var workTester = WorkAndProgressTester.Setup(Client);
 
             var result = Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
             {
                 Context = new ReferenceContext {IncludeDeclaration = true},
-                PartialResultToken = partialResultToken,
+                PartialResultToken = WorkAndProgressTester.PartialResultToken,
                 Position = new Position(2, 3),
                 TextDocument = new TextDocumentIdentifier(new Uri(ModuleBFile)),
-                WorkDoneToken = workdoneToken
+                WorkDoneToken = WorkAndProgressTester.WorkDoneToken
             }).Result;
 
             workTester.AssertProgressLogExpectations("DParserverTests.DReferencesHandlerTests.ExpectedProgress1");

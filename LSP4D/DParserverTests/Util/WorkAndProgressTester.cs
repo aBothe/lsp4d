@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Client;
+using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace DParserverTests.Util
 {
@@ -14,6 +15,8 @@ namespace DParserverTests.Util
         private readonly StringBuilder _recordedResultProgress = new StringBuilder("[");
         private readonly StringBuilder _recordedWorkProgress = new StringBuilder("[");
         private static readonly string SrcFolderUri = new Uri(Lsp4DUtil.DefaultSrcFolder).AbsoluteUri;
+        public static readonly ProgressToken PartialResultToken = new ProgressToken("partialResult");
+        public static readonly ProgressToken WorkDoneToken = new ProgressToken("workDone");
 
         private WorkAndProgressTester() {}
         
@@ -57,7 +60,7 @@ namespace DParserverTests.Util
             var jsonContent = JsonConvert.SerializeObject(content, Formatting.None)
                 .Replace(SrcFolderUri, "SRC")
                 .Replace(Lsp4DUtil.DefaultSrcFolder, "ABSSRC");
-            AssertJsonEquality(jsonContent, "DParserverTests.DReferencesHandlerTests.ExpectedProgress3-result.json");
+            AssertJsonEquality(jsonContent, jsonFileInResources);
         }
 
         static void AssertJsonEquality(string content, string jsonFileInResources)
