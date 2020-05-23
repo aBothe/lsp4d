@@ -1,0 +1,3 @@
+[{"token":"workDone","value":{"title":null,"message":"Begin generating completion info","percentage":0.0,"kind":"begin"}},
+{"token":"workDone","value":{"kind":"end"}},
+]

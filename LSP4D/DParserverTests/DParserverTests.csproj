@@ -26,6 +26,8 @@
       <EmbeddedResource Include="DReferencesHandlerTests.ExpectedProgress3-result.json" />
       <EmbeddedResource Include="DSelectionRangeHandlerTests1-work.json" />
       <EmbeddedResource Include="DSelectionRangeHandlerTests1-result.json" />
+      <EmbeddedResource Include="DCompletionHandlerTests.DotTrigger1-work.json" />
+      <EmbeddedResource Include="DCompletionHandlerTests.DotTrigger1-result.json" />
     </ItemGroup>
 
 </Project>

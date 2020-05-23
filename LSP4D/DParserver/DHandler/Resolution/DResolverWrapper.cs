@@ -24,7 +24,7 @@ namespace D_Parserver.DHandler.Resolution
             var code = TextDocumentHandler.GetModuleCode(documentPositionParams.TextDocument.Uri);
             var caret = new CodeLocation((int)documentPositionParams.Position.Character + 1, (int)documentPositionParams.Position.Line + 1);
 
-            var editorData = new EditorData
+            return new EditorData
             {
                 ParseCache = CreateParseCacheView(),
                 CancelToken = cancellationToken,
@@ -34,25 +34,6 @@ namespace D_Parserver.DHandler.Resolution
                 SyntaxTree = module,
                 GlobalVersionIds = VersionIdEvaluation.GetOSAndCPUVersions()
             };
-            return documentPositionParams is CompletionParams completionParams
-                ? PrepareForCompletionRequest(editorData, completionParams)
-                : editorData;
-        }
-
-        private static EditorData PrepareForCompletionRequest(EditorData ed, CompletionParams completionParams)
-        {
-            /*TODO
-            if (documentPositionParams is CompletionParams completionParams)
-            {
-                bool removeChar = completionParams.Context.TriggerKind == 
-            }
-            bool removeChar = char.IsLetter(triggerChar) || triggerChar == '_';
-            var deltaOffset = 0;//removeChar ? 1 : 0;
-
-            var caretOffset = ctx.TriggerOffset - (removeChar ? 1 : 0);
-            var caretLocation = new CodeLocation(ctx.TriggerLineOffset - deltaOffset, ctx.TriggerLine);
-            */
-            return ed;
         }
 
 
