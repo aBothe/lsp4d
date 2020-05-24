@@ -28,6 +28,8 @@
       <EmbeddedResource Include="DSelectionRangeHandlerTests1-result.json" />
       <EmbeddedResource Include="DCompletionHandlerTests.DotTrigger1-work.json" />
       <EmbeddedResource Include="DCompletionHandlerTests.DotTrigger1-result.json" />
+      <EmbeddedResource Include="DCompletionHandlerTests.PropnameTrigger-result.json" />
+      <EmbeddedResource Include="DCompletionHandlerTests.PropnameTrigger-work.json" />
     </ItemGroup>
 
 </Project>

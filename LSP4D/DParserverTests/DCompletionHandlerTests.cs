@@ -64,5 +64,35 @@ i.
             
             Assert.IsEmpty(completions);
         }
+        
+        [Test]
+        public void TriggersCompletion_WithAlreadyBegunIdentifier_ReturnsCompletionItems()
+        {
+            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
+class MyClass {int propertyA;}
+void foo(MyClass i) {
+i.prop
+}
+");
+            var workAndProgress = WorkAndProgressTester.Setup(Client);
+            
+            var completions = Client.SendRequest<CompletionList>("textDocument/completion", new CompletionParams
+                {
+                    Context = new CompletionContext
+                    {
+                        TriggerKind = CompletionTriggerKind.Invoked
+                    },
+                    Position = new Position(3, 6),
+                    TextDocument = new TextDocumentIdentifier(new Uri(Lsp4DUtil.DefaultMainFile)),
+                    PartialResultToken = WorkAndProgressTester.PartialResultToken,
+                    WorkDoneToken = WorkAndProgressTester.WorkDoneToken
+                })
+                .Result;
+
+            workAndProgress.AssertProgressLogExpectations("DParserverTests.DCompletionHandlerTests.PropnameTrigger");
+            
+            Assert.IsEmpty(completions);
+            Assert.IsFalse(completions.IsIncomplete);
+        }
     }
 }

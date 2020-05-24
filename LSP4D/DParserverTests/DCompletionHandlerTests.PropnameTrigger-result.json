@@ -1,0 +1,174 @@
+[{
+  "token": "partialResult",
+  "value": [
+    {
+      "label": "propertyA",
+      "kind": 6,
+      "tags": null,
+      "deprecated": false,
+      "preselect": true,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "propertyA"
+      }
+    },
+    {
+      "label": "foo",
+      "kind": 2,
+      "tags": null,
+      "deprecated": false,
+      "preselect": false,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "foo"
+      }
+    },
+    {
+      "label": "init",
+      "kind": 6,
+      "tags": null,
+      "deprecated": false,
+      "preselect": false,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "init"
+      }
+    },
+    {
+      "label": "sizeof",
+      "kind": 6,
+      "tags": null,
+      "deprecated": false,
+      "preselect": false,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "sizeof"
+      }
+    },
+    {
+      "label": "alignof",
+      "kind": 6,
+      "tags": null,
+      "deprecated": false,
+      "preselect": false,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "alignof"
+      }
+    },
+    {
+      "label": "mangleof",
+      "kind": 6,
+      "tags": null,
+      "deprecated": false,
+      "preselect": false,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "mangleof"
+      }
+    },
+    {
+      "label": "stringof",
+      "kind": 6,
+      "tags": null,
+      "deprecated": false,
+      "preselect": false,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "stringof"
+      }
+    },
+    {
+      "label": "classinfo",
+      "kind": 6,
+      "tags": null,
+      "deprecated": false,
+      "preselect": false,
+      "insertTextFormat": 0,
+      "textEdit": {
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 2
+          },
+          "end": {
+            "line": 3,
+            "character": 6
+          }
+        },
+        "newText": "classinfo"
+      }
+    }
+  ]
+},
+]

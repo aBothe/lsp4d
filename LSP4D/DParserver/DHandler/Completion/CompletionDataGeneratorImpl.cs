@@ -2,26 +2,38 @@ using System;
 using D_Parser.Completion;
 using D_Parser.Dom;
 using D_Parser.Parser;
-using D_Parserver.DHandler.Completion;
+using D_Parserver.DHandler.Resolution;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
-namespace D_Parserver.DHandler.Resolution
+namespace D_Parserver.DHandler.Completion
 {
     public class CompletionDataGeneratorImpl : ICompletionDataGenerator
     {
-        private readonly Action<CompletionItem> enlistItemHandler;
+        private readonly Action<CompletionItem> _enlistItemHandler;
+        private string _suggestedName;
 
         public ISyntaxRegion TriggerSyntaxRegion { get; set; }
 
         public CompletionDataGeneratorImpl(Action<CompletionItem> enlistItemHandler)
         {
-            this.enlistItemHandler = enlistItemHandler;
+            _enlistItemHandler = enlistItemHandler;
         }
 
-        public void Add(byte Token)
+        private void AddItem(CompletionItem completionItem)
         {
-            var tokenString = DTokens.GetTokenString(Token);
-            enlistItemHandler(new CompletionItem
+            var insertText = completionItem.InsertText ?? completionItem.Label;
+            if (!string.IsNullOrEmpty(_suggestedName) && insertText.StartsWith(_suggestedName))
+            {
+                completionItem.Preselect = true;
+            }
+            
+            _enlistItemHandler(completionItem);
+        }
+
+        public void Add(byte token)
+        {
+            var tokenString = DTokens.GetTokenString(token);
+            AddItem(new CompletionItem
             {
                 Kind = CompletionItemKind.Keyword,
                 Label = tokenString,
@@ -29,20 +41,20 @@ namespace D_Parserver.DHandler.Resolution
             });
         }
 
-        public void AddPropertyAttribute(string AttributeText)
+        public void AddPropertyAttribute(string attributeText)
         {
-            enlistItemHandler(new CompletionItem
+            AddItem(new CompletionItem
             {
                 Kind = CompletionItemKind.Keyword,
-                Label = "@" + AttributeText,
-                InsertText = AttributeText,
-                TextEdit = CalculateTextEdit(AttributeText)
+                Label = "@" + attributeText,
+                InsertText = attributeText,
+                TextEdit = CalculateTextEdit(attributeText)
             });
         }
 
         public void AddIconItem(string iconName, string text, string description)
         {
-            enlistItemHandler(new CompletionItem
+            AddItem(new CompletionItem
             {
                 Kind = CompletionItemKind.Keyword,
                 Label = text,
@@ -51,20 +63,20 @@ namespace D_Parserver.DHandler.Resolution
             });
         }
 
-        public void AddTextItem(string Text, string Description)
+        public void AddTextItem(string text, string description)
         {
-            enlistItemHandler(new CompletionItem
+            AddItem(new CompletionItem
             {
                 Kind = CompletionItemKind.Constant,
-                Label = Text,
-                Detail = Description,
-                TextEdit = CalculateTextEdit(Text)
+                Label = text,
+                Detail = description,
+                TextEdit = CalculateTextEdit(text)
             });
         }
 
         public void Add(INode n)
         {
-            enlistItemHandler(new CompletionItem
+            AddItem(new CompletionItem
             {
                 Label = n.Name,
                 Deprecated = n is DNode dNode && dNode.ContainsAnyAttribute(DTokens.Deprecated),
@@ -75,7 +87,7 @@ namespace D_Parserver.DHandler.Resolution
 
         public void AddModule(DModule module, string nameOverride = null)
         {
-            enlistItemHandler(new CompletionItem
+            AddItem(new CompletionItem
             {
                 Label = nameOverride ?? module.ModuleName,
                 Kind = CompletionItemKind.Module,
@@ -85,7 +97,7 @@ namespace D_Parserver.DHandler.Resolution
 
         public void AddPackage(string packageName)
         {
-            enlistItemHandler(new CompletionItem
+            AddItem(new CompletionItem
             {
                 Label = packageName,
                 Kind = CompletionItemKind.Folder,
@@ -95,9 +107,9 @@ namespace D_Parserver.DHandler.Resolution
 
         public void AddCodeGeneratingNodeItem(INode node, string codeToGenerate)
         {
-            enlistItemHandler(new CompletionItem
+            AddItem(new CompletionItem
             {
-                Label = "(implement) " + node.Name,
+                Label = node.Name,
                 Kind = CompletionItemKind.Method,
                 InsertText = codeToGenerate,
                 TextEdit = CalculateTextEdit(codeToGenerate)
@@ -106,7 +118,7 @@ namespace D_Parserver.DHandler.Resolution
 
         public void SetSuggestedItem(string item)
         {
-            throw new NotImplementedException();
+            _suggestedName = item;
         }
 
         public void NotifyTimeout()

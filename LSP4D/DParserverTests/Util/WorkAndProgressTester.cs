@@ -26,7 +26,7 @@ namespace DParserverTests.Util
             
             client.HandleNotification("$/progress", (JObject progressParams) =>
             {
-                var jsonAgain = progressParams.ToString(Formatting.None)
+                var jsonAgain = progressParams.ToString()
                     .Replace(SrcFolderUri, "SRC")
                     .Replace(Lsp4DUtil.DefaultSrcFolder, "ABSSRC");
 
@@ -70,10 +70,8 @@ namespace DParserverTests.Util
 
         static string GetEmbeddedResource(string res)
         {
-            using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(res)))
-            {
-                return reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(res));
+            return reader.ReadToEnd();
         }
     }
 }

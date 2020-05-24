@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using D_Parser.Completion;
 using D_Parser.Dom;
+using D_Parserver.DHandler.Completion;
 using D_Parserver.DHandler.Resolution;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
