@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DParser2", "D_Parser\DParse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DParserverTests", "DParserverTests\DParserverTests.csproj", "{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "D_Parser\Tests\Tests.csproj", "{F6C093DA-4643-4063-8587-E61C1F38779B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FC0216C-7F75-4ECF-9CC2-86AD35C431FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C093DA-4643-4063-8587-E61C1F38779B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C093DA-4643-4063-8587-E61C1F38779B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C093DA-4643-4063-8587-E61C1F38779B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C093DA-4643-4063-8587-E61C1F38779B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
