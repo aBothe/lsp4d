@@ -65,7 +65,7 @@ namespace DParserverTests.Util
 
         static void AssertJsonEquality(string content, string jsonFileInResources)
         {
-            Assert.AreEqual(GetEmbeddedResource(jsonFileInResources), content);
+            Assert.AreEqual(GetEmbeddedResource(jsonFileInResources), content, "File " + jsonFileInResources);
         }
 
         static string GetEmbeddedResource(string res)
