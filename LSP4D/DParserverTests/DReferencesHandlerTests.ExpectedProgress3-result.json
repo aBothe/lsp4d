@@ -1,1 +1,54 @@
-[{"Uri":"SRC/a.d","Range":{"Start":{"Line":1,"Character":6},"End":{"Line":1,"Character":12}}},{"Uri":"SRC/a.d","Range":{"Start":{"Line":5,"Character":17},"End":{"Line":5,"Character":23}}},{"Uri":"SRC/b.d","Range":{"Start":{"Line":2,"Character":0},"End":{"Line":2,"Character":6}}},{"Uri":"SRC/b.d","Range":{"Start":{"Line":3,"Character":12},"End":{"Line":3,"Character":18}}}]
+[
+  {
+    "Uri": "SRC/a.d",
+    "Range": {
+      "Start": {
+        "Line": 1,
+        "Character": 6
+      },
+      "End": {
+        "Line": 1,
+        "Character": 12
+      }
+    }
+  },
+  {
+    "Uri": "SRC/a.d",
+    "Range": {
+      "Start": {
+        "Line": 5,
+        "Character": 17
+      },
+      "End": {
+        "Line": 5,
+        "Character": 23
+      }
+    }
+  },
+  {
+    "Uri": "SRC/b.d",
+    "Range": {
+      "Start": {
+        "Line": 2,
+        "Character": 0
+      },
+      "End": {
+        "Line": 2,
+        "Character": 6
+      }
+    }
+  },
+  {
+    "Uri": "SRC/b.d",
+    "Range": {
+      "Start": {
+        "Line": 3,
+        "Character": 12
+      },
+      "End": {
+        "Line": 3,
+        "Character": 18
+      }
+    }
+  }
+]

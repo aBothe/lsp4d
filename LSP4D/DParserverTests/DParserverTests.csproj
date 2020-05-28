@@ -30,6 +30,16 @@
       <EmbeddedResource Include="DCompletionHandlerTests.DotTrigger1-result.json" />
       <EmbeddedResource Include="DCompletionHandlerTests.PropnameTrigger-result.json" />
       <EmbeddedResource Include="DCompletionHandlerTests.PropnameTrigger-work.json" />
+      <None Remove="DFoldingRangeHandlerTests.ImportRanges-result.json" />
+      <EmbeddedResource Include="DFoldingRangeHandlerTests.ImportRanges-result.json" />
+      <None Remove="DFoldingRangeHandlerTests.ImportRanges-work.json" />
+      <EmbeddedResource Include="DFoldingRangeHandlerTests.ImportRanges-work.json" />
+      <None Remove="DFoldingRangeHandlerTests.SubsequentSingleLineComments-result.json" />
+      <EmbeddedResource Include="DFoldingRangeHandlerTests.SubsequentSingleLineComments-result.json" />
+      <None Remove="DFoldingRangeHandlerTests.MetaBlocks-result.json" />
+      <EmbeddedResource Include="DFoldingRangeHandlerTests.MetaBlocks-result.json" />
+      <None Remove="DFoldingRangeHandlerTests.RegionComments-result.json" />
+      <EmbeddedResource Include="DFoldingRangeHandlerTests.RegionComments-result.json" />
     </ItemGroup>
 
 </Project>

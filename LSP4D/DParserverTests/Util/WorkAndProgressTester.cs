@@ -57,7 +57,7 @@ namespace DParserverTests.Util
 
         public static void AssertResultEquality(object content, string jsonFileInResources)
         {
-            var jsonContent = JsonConvert.SerializeObject(content, Formatting.None)
+            var jsonContent = JsonConvert.SerializeObject(content, Formatting.Indented)
                 .Replace(SrcFolderUri, "SRC")
                 .Replace(Lsp4DUtil.DefaultSrcFolder, "ABSSRC");
             AssertJsonEquality(jsonContent, jsonFileInResources);

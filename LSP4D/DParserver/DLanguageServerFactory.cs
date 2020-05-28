@@ -16,7 +16,7 @@ namespace D_Parserver
                 options
                     .WithInput(input)
                     .WithOutput(output)
-                    .WithHandler<FoldingRangeHandler>()
+                    .WithHandler<DFoldingRangeHandler>()
                     .WithHandler<DDefinitionHandler>()
                     .WithHandler<TextDocumentHandler>()
                     .WithHandler<DHoverHandler>()
