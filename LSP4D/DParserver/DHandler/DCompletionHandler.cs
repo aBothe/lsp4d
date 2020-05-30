@@ -85,7 +85,7 @@ namespace D_Parserver.DHandler
 
         public override bool CanResolve(CompletionItem value)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }
