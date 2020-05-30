@@ -138,7 +138,7 @@ void main(string[] args) {
         {
             Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;//0
 import a;//1
-import b;
+import b;import b2;
 
 import c=d;
 import e;
@@ -154,17 +154,13 @@ static if(true) {
     }
 }
 ");
-            var workAndProgress = WorkAndProgressTester.Setup(Client);
-            
             var request = new FoldingRangeRequestParam {
-                TextDocument = new TextDocumentItem {Uri = new Uri(Lsp4DUtil.DefaultMainFile)},
-                PartialResultToken = WorkAndProgressTester.PartialResultToken,
-                WorkDoneToken = WorkAndProgressTester.WorkDoneToken
+                TextDocument = new TextDocumentItem {Uri = new Uri(Lsp4DUtil.DefaultMainFile)}
             }; 
-            var foldings = Client.SendRequest<Container<FoldingRange>>(DocumentNames.FoldingRange, request).Result;
+            var foldings = Client.SendRequest<Container<FoldingRange>>(DocumentNames.FoldingRange, request).Result.ToList();
+            foldings.Sort((r1, r2) => r1.StartLine.CompareTo(r2.StartLine));
             
-            Assert.IsEmpty(foldings);
-            workAndProgress.AssertProgressLogExpectations("DParserverTests.DFoldingRangeHandlerTests.ImportRanges");
+            WorkAndProgressTester.AssertResultEquality(foldings, "DParserverTests.DFoldingRangeHandlerTests.ImportRanges-result.json");
         }
     }
 }

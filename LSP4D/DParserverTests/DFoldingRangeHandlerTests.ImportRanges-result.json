@@ -1,0 +1,37 @@
+[
+  {
+    "StartLine": 1,
+    "StartCharacter": 0,
+    "EndLine": 2,
+    "EndCharacter": 19,
+    "Kind": 1
+  },
+  {
+    "StartLine": 4,
+    "StartCharacter": 0,
+    "EndLine": 6,
+    "EndCharacter": 9,
+    "Kind": 1
+  },
+  {
+    "StartLine": 8,
+    "StartCharacter": 16,
+    "EndLine": 16,
+    "EndCharacter": 1,
+    "Kind": 2
+  },
+  {
+    "StartLine": 9,
+    "StartCharacter": 4,
+    "EndLine": 11,
+    "EndCharacter": 13,
+    "Kind": 1
+  },
+  {
+    "StartLine": 13,
+    "StartCharacter": 29,
+    "EndLine": 15,
+    "EndCharacter": 5,
+    "Kind": 2
+  }
+]

@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using D_Parser.Dom;
-using D_Parser.Dom.Statements;
 using D_Parser.Parser;
+using D_Parserver.DHandler.Resolution;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
@@ -137,88 +137,6 @@ namespace D_Parserver.DHandler
                     };
                 }
             }
-        }
-    }
-
-    class FoldingVisitor : DefaultDepthFirstVisitor
-    {
-        readonly List<FoldingRange> _resultRanges;
-
-        private FoldingVisitor(List<FoldingRange> resultRanges)
-        {
-            _resultRanges = resultRanges;
-        }
-
-        public static List<FoldingRange> GenerateFoldsInternal(IBlockNode block)
-        {
-            var l = new List<FoldingRange>();
-            block?.Accept(new FoldingVisitor(l));
-            return l;
-        }
-
-        public static FoldingRange GetBlockBodyRegion(IBlockNode n)
-        {
-            return new FoldingRange
-            {
-                StartLine = n.BlockStartLocation.Line - 1,
-                StartCharacter = n.BlockStartLocation.Column - 1,
-                EndLine = n.EndLocation.Line - 1,
-                EndCharacter = n.EndLocation.Column - 1,
-                Kind = FoldingRangeKind.Region
-            };
-        }
-
-        public override void Visit(BlockStatement s)
-        {
-            _resultRanges.Add(new FoldingRange
-            {
-                StartLine = s.Location.Line - 1,
-                StartCharacter = s.Location.Column - 1,
-                EndLine = s.EndLocation.Line - 1,
-                EndCharacter = s.EndLocation.Column - 1,
-                Kind = FoldingRangeKind.Region
-            });
-
-            base.Visit(s);
-        }
-
-        public override void Visit(D_Parser.Dom.Expressions.StructInitializer x)
-        {
-            _resultRanges.Add(new FoldingRange
-            {
-                StartLine = x.Location.Line - 1,
-                StartCharacter = x.Location.Column - 1,
-                EndLine = x.EndLocation.Line - 1,
-                EndCharacter = x.EndLocation.Column - 1,
-                Kind = FoldingRangeKind.Region
-            });
-
-            base.Visit(x);
-        }
-
-        public override void Visit(DClassLike n)
-        {
-            _resultRanges.Add(GetBlockBodyRegion(n));
-            base.Visit(n);
-        }
-
-        public override void Visit(DEnum n)
-        {
-            _resultRanges.Add(GetBlockBodyRegion(n));
-
-            base.Visit(n);
-        }
-
-        public override void VisitIMetaBlock(IMetaDeclarationBlock mdb)
-        {
-            _resultRanges.Add(new FoldingRange
-            {
-                StartLine = mdb.BlockStartLocation.Line - 1,
-                StartCharacter = mdb.BlockStartLocation.Column - 1,
-                EndLine = mdb.EndLocation.Line - 1,
-                EndCharacter = mdb.EndLocation.Column - 1,
-                Kind = FoldingRangeKind.Region
-            });
         }
     }
 }
