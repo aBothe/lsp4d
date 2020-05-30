@@ -1,6 +1,5 @@
 using DParserverTests.Util;
 using NUnit.Framework;
-using OmniSharp.Extensions.LanguageServer.Protocol.Server.Capabilities;
 
 namespace DParserverTests
 {
@@ -9,7 +8,7 @@ namespace DParserverTests
         [Test]
         public void StartsServer()
         {
-            Assert.IsTrue(Client.ServerCapabilities.TextDocumentSync.Kind.HasFlag(TextDocumentSyncKind.Incremental));
+            Assert.IsNotNull(Client.ServerCapabilities.CompletionProvider);
         }
     }
 }
