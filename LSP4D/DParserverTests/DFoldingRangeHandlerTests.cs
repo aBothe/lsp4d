@@ -26,9 +26,9 @@ namespace DParserverTests
         [Test]
         public void TextDocumentChanges_appliesIncrementalChanges()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;//0
+            OpenMainFile(@"module main;//0
 import stdio;//1
-//2", 1);
+//2");
 
             Client.SendNotification(DocumentNames.DidChange, new DidChangeTextDocumentParams
             {
@@ -73,7 +73,7 @@ void main(string[] args) {//3
         [Test]
         public void GenerateFoldings_HandleSubsequentSingleLineComments()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
+            OpenMainFile(@"module main;
 
 /// a
 /// b
@@ -94,7 +94,7 @@ void main(string[] args) {//3
         [Test]
         public void GenerateFoldings_HandleRanges()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
+            OpenMainFile(@"module main;
 
 // region asdf
 
@@ -114,7 +114,7 @@ void main() {}
         [Test]
         public void GenerateFoldings_HandleMetaBlocks()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;//0
+            OpenMainFile(@"module main;//0
 import stdio;//1
 
 static if(true) {
@@ -135,8 +135,8 @@ void main(string[] args) {
 
         [Test]
         public void GenerateFoldings_HandleImportBlocks()
-        {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;//0
+        { 
+            OpenMainFile(@"module main;//0
 import a;//1
 import b;import b2;
 

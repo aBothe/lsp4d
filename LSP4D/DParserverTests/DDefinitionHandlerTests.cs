@@ -19,12 +19,12 @@ namespace DParserverTests
         [Test]
         public void CallGotoDeclarationHandler_ReturnsLocations()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
+            var caret = OpenMainFile(@"module main;
 class MyClass {}
 
-MyClass instance;");
+My§Class instance;");
 
-            var definitions = Client.TextDocument.Definition(Lsp4DUtil.DefaultMainFile, 3, 2).Result.ToList();
+            var definitions = Client.TextDocument.Definition(Lsp4DUtil.DefaultMainFile, (int) caret.Line, (int) caret.Character).Result.ToList();
 
             Assert.AreEqual("[{\"IsLocation\":false,\"Location\":null,\"IsLocationLink\":true,\"LocationLink\":{" +
                             "\"OriginSelectionRange\":{\"Start\":{\"Line\":3,\"Character\":0},\"End\":{\"Line\":3,\"Character\":7}}," +

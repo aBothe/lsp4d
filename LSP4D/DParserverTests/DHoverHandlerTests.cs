@@ -20,16 +20,16 @@ namespace DParserverTests
         [Test]
         public void InvokesHover_ReturnsSignature()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
+            var caret = OpenMainFile(@"module main;
 /**
  * Some arguments
  * Returns: Dummy!
  */
-void main(string[] args) {
+void ma§in(string[] args) {
 }
 ");
 
-            var hoverResult = Client.TextDocument.Hover(Lsp4DUtil.DefaultMainFile, 5, 8).Result;
+            var hoverResult = Client.TextDocument.Hover(Lsp4DUtil.DefaultMainFile, (int) caret.Line, (int) caret.Character).Result;
 
             Assert.AreEqual(
                 "{\"Contents\":{\"MarkedStrings\":null,\"HasMarkedStrings\":false,\"MarkupContent\":{\"Kind\":\"markdown\"," +

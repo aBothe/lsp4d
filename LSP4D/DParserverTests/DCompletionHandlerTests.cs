@@ -37,10 +37,10 @@ namespace DParserverTests
         [Test]
         public void TriggersCompletion_WithInitialDot_ReturnsCompletionItems()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
+            var caret = OpenMainFile(@"module main;
 class MyClass {int propertyA;}
 void foo(MyClass i) {
-i.
+i.§
 }
 ");
 
@@ -53,7 +53,7 @@ i.
                         TriggerCharacter = ".",
                         TriggerKind = CompletionTriggerKind.TriggerCharacter
                     },
-                    Position = new Position(3, 2),
+                    Position = caret,
                     PartialResultToken = WorkAndProgressTester.PartialResultToken,
                     TextDocument = new TextDocumentIdentifier(new Uri(Lsp4DUtil.DefaultMainFile)),
                     WorkDoneToken = WorkAndProgressTester.WorkDoneToken
@@ -68,10 +68,10 @@ i.
         [Test]
         public void TriggersCompletion_WithAlreadyBegunIdentifier_ReturnsCompletionItems()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module main;
+            var caret = OpenMainFile(@"module main;
 class MyClass {int propertyA;}
 void foo(MyClass i) {
-i.prop
+i.prop§
 }
 ");
             var workAndProgress = WorkAndProgressTester.Setup(Client);
@@ -82,7 +82,7 @@ i.prop
                     {
                         TriggerKind = CompletionTriggerKind.Invoked
                     },
-                    Position = new Position(3, 6),
+                    Position = caret,
                     TextDocument = new TextDocumentIdentifier(new Uri(Lsp4DUtil.DefaultMainFile)),
                     PartialResultToken = WorkAndProgressTester.PartialResultToken,
                     WorkDoneToken = WorkAndProgressTester.WorkDoneToken

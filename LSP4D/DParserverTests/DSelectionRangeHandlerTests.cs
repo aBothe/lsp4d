@@ -24,10 +24,10 @@ namespace DParserverTests
         [Test]
         public void RequestSelectionRange_ReturnsAstStackAsSelectionRangeStack()
         {
-            Client.TextDocument.DidOpen(Lsp4DUtil.DefaultMainFile, Lsp4DUtil.DLANG, @"module modA;
+            var caret = OpenMainFile(@"module modA;
 static if(true) {
     class AClass {
-        void foo(T = bool)() {
+        void foo(T = bo§ol)() {
             return bar();
         }
     }
@@ -42,7 +42,7 @@ static if(true) {
                     TextDocument = new TextDocumentIdentifier(new Uri(Lsp4DUtil.DefaultMainFile)),
                     Positions = new Container<Position>(
                         new Position(4, 22),
-                        new Position(3, 24)),
+                        caret),
                     PartialResultToken = WorkAndProgressTester.PartialResultToken,
                     WorkDoneToken = WorkAndProgressTester.WorkDoneToken
                 }).Result;

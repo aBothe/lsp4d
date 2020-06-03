@@ -21,7 +21,7 @@ namespace DParserverTests
         [Test]
         public void EnumReferences_IncludeDeclaration_ReturnsReferences()
         {
-            Client.TextDocument.DidOpen(ModuleAFile, Lsp4DUtil.DLANG, @"module modA;
+            OpenFile(ModuleAFile, @"module modA;
 class AClass {}
 class BClass {}
 
@@ -30,32 +30,30 @@ void bar() {
 }
 ");
 
-            Client.TextDocument.DidOpen(ModuleBFile, Lsp4DUtil.DLANG, @"module modB;
+            var bFileCaret = OpenFile(ModuleBFile, @"module modB;
 import modA;
-AClass ainstance;
+AC§lass ainstance;
 void foo(T: AClass)() {}
 ");
 
             var workTester = WorkAndProgressTester.Setup(Client);
 
-            var result = Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
+            Assert.IsEmpty(Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
             {
                 Context = new ReferenceContext {IncludeDeclaration = true},
                 PartialResultToken = WorkAndProgressTester.PartialResultToken,
-                Position = new Position(2, 3),
+                Position = bFileCaret,
                 TextDocument = new TextDocumentIdentifier(new Uri(ModuleBFile)),
                 WorkDoneToken = WorkAndProgressTester.WorkDoneToken
-            }).Result;
+            }).Result);
 
             workTester.AssertProgressLogExpectations("DParserverTests.DReferencesHandlerTests.ExpectedProgress1");
-
-            Assert.AreEqual("[]", JsonConvert.SerializeObject(result));
         }
 
         [Test]
         public void EnumReferences_DontIncludeDeclaration_ReturnsReferences()
         {
-            Client.TextDocument.DidOpen(ModuleAFile, Lsp4DUtil.DLANG, @"module modA;
+            OpenFile(ModuleAFile, @"module modA;
 class AClass {}
 class BClass {}
 
@@ -64,9 +62,9 @@ void bar() {
 }
 ");
 
-            Client.TextDocument.DidOpen(ModuleBFile, Lsp4DUtil.DLANG, @"module modB;
+            var bFileCaret = OpenFile(ModuleBFile, @"module modB;
 import modA;
-AClass ainstance;
+AC§lass ainstance;
 void foo(T: AClass)() {}
 ");
 
@@ -79,7 +77,7 @@ void foo(T: AClass)() {}
             {
                 Context = new ReferenceContext {IncludeDeclaration = false},
                 PartialResultToken = partialResultToken,
-                Position = new Position(2, 3),
+                Position = bFileCaret,
                 TextDocument = new TextDocumentIdentifier(new Uri(ModuleBFile)),
                 WorkDoneToken = workdoneToken
             }).Result;
@@ -92,7 +90,7 @@ void foo(T: AClass)() {}
         [Test]
         public void EnumReferences_NoProgressResult_ReturnsReferencesAsSingleResult()
         {
-            Client.TextDocument.DidOpen(ModuleAFile, Lsp4DUtil.DLANG, @"module modA;
+            OpenFile(ModuleAFile, @"module modA;
 class AClass {}
 class BClass {}
 
@@ -101,16 +99,16 @@ void bar() {
 }
 ");
 
-            Client.TextDocument.DidOpen(ModuleBFile, Lsp4DUtil.DLANG, @"module modB;
+            var bFileCaret = OpenFile(ModuleBFile, @"module modB;
 import modA;
-AClass ainstance;
+ACl§ass ainstance;
 void foo(T: AClass)() {}
 ");
 
             var result = Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
             {
                 Context = new ReferenceContext {IncludeDeclaration = true},
-                Position = new Position(2, 3),
+                Position = bFileCaret,
                 TextDocument = new TextDocumentIdentifier(new Uri(ModuleBFile))
             }).Result;
 
