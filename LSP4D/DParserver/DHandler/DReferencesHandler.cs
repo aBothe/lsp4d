@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using D_Parser.Dom;
-using D_Parser.Dom.Expressions;
 using D_Parser.Refactoring;
 using D_Parser.Resolver;
 using D_Parser.Resolver.ExpressionSemantics;
@@ -13,7 +12,6 @@ using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Server;
-using Range = OmniSharp.Extensions.LanguageServer.Protocol.Models.Range;
 
 namespace D_Parserver.DHandler
 {
@@ -106,39 +104,12 @@ namespace D_Parserver.DHandler
             return Task.FromResult(progress != null ? new LocationContainer() 
                 : new LocationContainer(allFoundReferences));
         }
-
+        
         static Location ToLocation(ISyntaxRegion reference, DModule module)
         {
-            CodeLocation startLocation;
-            CodeLocation endLocation;
-
-            switch (reference)
-            {
-                case AbstractTypeDeclaration abstractTypeDeclaration:
-                    startLocation = abstractTypeDeclaration.NonInnerTypeDependendLocation;
-                    endLocation = abstractTypeDeclaration.EndLocation;
-                    break;
-                case IExpression _:
-                    startLocation = reference.Location;
-                    endLocation = reference.EndLocation;
-                    break;
-                case TemplateParameter templateParameter:
-                    startLocation = templateParameter.NameLocation;
-                    endLocation = new CodeLocation(templateParameter.NameLocation.Column + templateParameter.Name.Length, 
-                        templateParameter.NameLocation.Line);
-                    break;
-                case INode n:
-                    startLocation = n.NameLocation;
-                    endLocation = new CodeLocation(n.NameLocation.Column + n.Name.Length, n.NameLocation.Line);
-                    break;
-                default:
-                    return default;
-            }
-            
             return new Location
             {
-                Range = new Range(new Position(startLocation.Line - 1, startLocation.Column - 1), 
-                    new Position(endLocation.Line - 1, endLocation.Column - 1)),
+                Range = reference.GetNameRange(),
                 Uri = new Uri(module.FileName)
             };
         }

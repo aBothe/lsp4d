@@ -1,4 +1,5 @@
 using D_Parser.Dom;
+using D_Parser.Dom.Expressions;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace D_Parserver.DHandler.Resolution
@@ -37,6 +38,38 @@ namespace D_Parserver.DHandler.Resolution
             return (range.Start.Line < startLine ||
                     (range.Start.Line == startLine && range.Start.Character <= startCol))
                    && (range.End.Line > endLine || (range.End.Line == endLine && range.End.Character >= endCol));
+        }
+
+        public static Range GetNameRange(this ISyntaxRegion reference)
+        {
+            CodeLocation startLocation;
+            CodeLocation endLocation;
+
+            switch (reference)
+            {
+                case AbstractTypeDeclaration abstractTypeDeclaration:
+                    startLocation = abstractTypeDeclaration.NonInnerTypeDependendLocation;
+                    endLocation = abstractTypeDeclaration.EndLocation;
+                    break;
+                case IExpression _:
+                    startLocation = reference.Location;
+                    endLocation = reference.EndLocation;
+                    break;
+                case TemplateParameter templateParameter:
+                    startLocation = templateParameter.NameLocation;
+                    endLocation = new CodeLocation(templateParameter.NameLocation.Column + templateParameter.Name.Length, 
+                        templateParameter.NameLocation.Line);
+                    break;
+                case INode n:
+                    startLocation = n.NameLocation;
+                    endLocation = new CodeLocation(n.NameLocation.Column + n.Name.Length, n.NameLocation.Line);
+                    break;
+                default:
+                    return default;
+            }
+
+            return new Range(new Position(startLocation.Line - 1, startLocation.Column - 1),
+                new Position(endLocation.Line - 1, endLocation.Column - 1));
         }
     }
 }
