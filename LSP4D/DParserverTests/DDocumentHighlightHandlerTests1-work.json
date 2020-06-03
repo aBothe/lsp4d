@@ -1,0 +1,15 @@
+[{
+  "token": "workDone",
+  "value": {
+    "title": "Begin finding highlights",
+    "percentage": 0.0,
+    "kind": "begin"
+  }
+},
+{
+  "token": "workDone",
+  "value": {
+    "kind": "end"
+  }
+},
+]

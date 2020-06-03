@@ -39,6 +39,12 @@
       <EmbeddedResource Include="DFoldingRangeHandlerTests.MetaBlocks-result.json" />
       <None Remove="DFoldingRangeHandlerTests.RegionComments-result.json" />
       <EmbeddedResource Include="DFoldingRangeHandlerTests.RegionComments-result.json" />
+      <None Remove="DDocumentHighlightHandlerTests1-result.json" />
+      <EmbeddedResource Include="DDocumentHighlightHandlerTests1-result.json" />
+      <None Remove="DDocumentHighlightHandlerTests1-work.json" />
+      <EmbeddedResource Include="DDocumentHighlightHandlerTests1-work.json" />
+      <None Remove="DDocumentHighlightHandlerTests2-result.json" />
+      <EmbeddedResource Include="DDocumentHighlightHandlerTests2-result.json" />
     </ItemGroup>
 
 </Project>

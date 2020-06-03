@@ -1,0 +1,28 @@
+[
+  {
+    "Range": {
+      "Start": {
+        "Line": 1,
+        "Character": 6
+      },
+      "End": {
+        "Line": 1,
+        "Character": 12
+      }
+    },
+    "Kind": 1
+  },
+  {
+    "Range": {
+      "Start": {
+        "Line": 6,
+        "Character": 17
+      },
+      "End": {
+        "Line": 6,
+        "Character": 23
+      }
+    },
+    "Kind": 1
+  }
+]
