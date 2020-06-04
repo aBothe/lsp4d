@@ -1,0 +1,15 @@
+[{
+  "token": "workDone",
+  "value": {
+    "title": "Resolve symbol definition location",
+    "message": "Begin resolving definition under caret",
+    "kind": "begin"
+  }
+},
+{
+  "token": "workDone",
+  "value": {
+    "kind": "end"
+  }
+},
+]

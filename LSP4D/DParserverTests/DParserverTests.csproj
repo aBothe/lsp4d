@@ -45,6 +45,10 @@
       <EmbeddedResource Include="DDocumentHighlightHandlerTests1-work.json" />
       <None Remove="DDocumentHighlightHandlerTests2-result.json" />
       <EmbeddedResource Include="DDocumentHighlightHandlerTests2-result.json" />
+      <None Remove="DDefinitionHandlerTests1-result.json" />
+      <EmbeddedResource Include="DDefinitionHandlerTests1-result.json" />
+      <None Remove="DDefinitionHandlerTests1-work.json" />
+      <EmbeddedResource Include="DDefinitionHandlerTests1-work.json" />
     </ItemGroup>
 
 </Project>

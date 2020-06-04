@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using DParserverTests.Util;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
+using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace DParserverTests
 {
@@ -17,6 +19,12 @@ namespace DParserverTests
         }
 
         [Test]
+        public void CheckServerCaps()
+        {
+            Assert.IsTrue(Client.ServerCapabilities.DefinitionProvider.Value.WorkDoneProgress);
+        }
+
+        [Test]
         public void CallGotoDeclarationHandler_ReturnsLocations()
         {
             var caret = OpenMainFile(@"module main;
@@ -24,14 +32,17 @@ class MyClass {}
 
 My§Class instance;");
 
-            var definitions = Client.TextDocument.Definition(Lsp4DUtil.DefaultMainFile, (int) caret.Line, (int) caret.Character).Result.ToList();
+            var workAndProgress = WorkAndProgressTester.Setup(Client);
 
-            Assert.AreEqual("[{\"IsLocation\":false,\"Location\":null,\"IsLocationLink\":true,\"LocationLink\":{" +
-                            "\"OriginSelectionRange\":{\"Start\":{\"Line\":3,\"Character\":0},\"End\":{\"Line\":3,\"Character\":7}}," +
-                            $"\"TargetUri\":\"{new Uri(Lsp4DUtil.DefaultMainFile).AbsoluteUri}\"," +
-                            "\"TargetRange\":{\"Start\":{\"Line\":1,\"Character\":0},\"End\":{\"Line\":1,\"Character\":16}}," +
-                            "\"TargetSelectionRange\":{\"Start\":{\"Line\":1,\"Character\":6},\"End\":{\"Line\":1,\"Character\":13}}" +
-                            "}}]", JsonConvert.SerializeObject(definitions));
+            Assert.IsEmpty(Client.SendRequest<List<LocationOrLocationLink>>(DocumentNames.Definition, new DefinitionParams
+            {
+                PartialResultToken = WorkAndProgressTester.PartialResultToken,
+                Position = caret,
+                TextDocument = new TextDocumentIdentifier(new Uri(Lsp4DUtil.DefaultMainFile)),
+                WorkDoneToken = WorkAndProgressTester.WorkDoneToken
+            }).Result);
+            
+            workAndProgress.AssertProgressLogExpectations("DParserverTests.DDefinitionHandlerTests1");
         }
 
         [Test]
