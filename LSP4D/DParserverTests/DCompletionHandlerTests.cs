@@ -46,7 +46,7 @@ i.§
 
             var workAndProgress = WorkAndProgressTester.Setup(Client);
 
-            var completions = Client.SendRequest<CompletionList>("textDocument/completion", new CompletionParams
+            var completions = Client.SendRequest<CompletionList>(DocumentNames.Completion, new CompletionParams
                 {
                     Context = new CompletionContext
                     {
@@ -76,7 +76,7 @@ i.prop§
 ");
             var workAndProgress = WorkAndProgressTester.Setup(Client);
             
-            var completions = Client.SendRequest<CompletionList>("textDocument/completion", new CompletionParams
+            var completions = Client.SendRequest<CompletionList>(DocumentNames.Completion, new CompletionParams
                 {
                     Context = new CompletionContext
                     {

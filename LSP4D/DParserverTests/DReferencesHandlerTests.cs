@@ -3,6 +3,7 @@ using System.IO;
 using DParserverTests.Util;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 
 namespace DParserverTests
@@ -73,7 +74,7 @@ void foo(T: AClass)() {}
 
             var workTester = WorkAndProgressTester.Setup(Client);
 
-            var result = Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
+            var result = Client.SendRequest<LocationContainer>(DocumentNames.References, new ReferenceParams
             {
                 Context = new ReferenceContext {IncludeDeclaration = false},
                 PartialResultToken = partialResultToken,
@@ -105,7 +106,7 @@ ACl§ass ainstance;
 void foo(T: AClass)() {}
 ");
 
-            var result = Client.SendRequest<LocationContainer>("textDocument/references", new ReferenceParams
+            var result = Client.SendRequest<LocationContainer>(DocumentNames.References, new ReferenceParams
             {
                 Context = new ReferenceContext {IncludeDeclaration = true},
                 Position = bFileCaret,

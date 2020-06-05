@@ -29,7 +29,7 @@ void bar() {
 
             var workTester = WorkAndProgressTester.Setup(Client);
 
-            Assert.IsEmpty(Client.SendRequest<DocumentHighlightContainer>("textDocument/documentHighlight",
+            Assert.IsEmpty(Client.SendRequest<DocumentHighlightContainer>(DocumentNames.DocumentHighlight,
                 new DocumentHighlightParams
                 {
                     Position = caret,
@@ -54,7 +54,7 @@ void bar() {
 }
 ");
 
-            var results = Client.SendRequest<DocumentHighlightContainer>("textDocument/documentHighlight",
+            var results = Client.SendRequest<DocumentHighlightContainer>(DocumentNames.DocumentHighlight,
                 new DocumentHighlightParams
                 {
                     Position = caret,

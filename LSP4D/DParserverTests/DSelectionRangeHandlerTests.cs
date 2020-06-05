@@ -36,7 +36,7 @@ static if(true) {
 
             var tester = WorkAndProgressTester.Setup(Client);
 
-            var result = Client.SendRequest<Container<SelectionRange>>("textDocument/selectionRange",
+            var result = Client.SendRequest<Container<SelectionRange>>(DocumentNames.SelectionRange,
                 new SelectionRangeParam
                 {
                     TextDocument = new TextDocumentIdentifier(new Uri(Lsp4DUtil.DefaultMainFile)),
